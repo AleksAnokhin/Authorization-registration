@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<title>Coutries</title>
+</head>
+<body>
+	<? $continent = isset($_GET['continent']) ? $_GET['continent'] : 'all' ?>
+	<? $sort = isset($_GET['sort']) ? $_GET['sort'] : 'null' ?>
+	<? $column = isset($_GET['column']) ? $_GET['column'] : 'null' ?>
+
+<form action="">
+  <div class="input-group mb-3 col-md-6">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="inputGroupSelect01">Filter</label>
+    </div>
+    <select class="custom-select" id="inputGroupSelect01" name="continent">
+      <option value="all">All continents</option>
+      <? foreach($continents as $key=>$val):?>
+      <option value="<?=$val?>">
+      <?=$val?>
+      </option>
+      <?endforeach?>
+    </select>
+  </div>
+	<div class="input-group mb-3 col-md-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="inputGroupSelect02">Filter</label>
+    </div>
+    <select class="custom-select" id="inputGroupSelect02" name="sort">
+      <option value="null">No filter</option>
+		<option value="ASC">ASC</option>
+		<option value="DESC">DESC</option>
+    </select>
+		<div class="input-group-prepend">
+      <label class="input-group-text" for="inputGroupSelect03">Column</label>
+    </div>
+    <select class="custom-select" id="inputGroupSelect03" name="column">
+      <option value="null">No filter</option>
+		<option value="Code">Code</option>
+		<option value="Name">Name</option>
+		<option value="Continent">Continent</option>
+		<option value="countrylanguage.Language">Language</option>
+		<option value="countrylanguage.Percentage">Percentage</option>
+    </select>
+  </div>
+  <input type="submit" class="btn btn-primary" style="margin-bottom: 10px">
+	</form>
+	
+  <table class="table table-dark">
+<thead>
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th>Continent</th>
+    <th>Language</th>
+    <th>Percentage</th>
+  </tr>
+</thead>
+<tbody>
+  <? foreach($countries as $key): ?>
+  <tr>
+    <td><?= $key['Code'] ?></td>
+    <td><?= $key['Name'] ?></td>
+    <td><?= $key['Continent'] ?></td>
+    <td><?= $key['Language'] ?></td>
+    <td><?= $key['Percentage'] ?></td>
+  </tr>
+  <?endforeach?>
+</tbody>
+</table>
+	<?if($allcountries > 1):?>
+	<nav aria-label="Page navigation example">
+  <ul class="pagination">
+	 <li class="page-item"><a class="page-link" href="filters.php?list=1&continent=<?=$continent?>&sort=<?=$sort?>&column=<?=$column?>">Start</a></li>
+    <li class="page-item"><a class="page-link" href="filters.php?list=<?=$list==1?$list:$list-1?>&continent=<?=$continent?>&sort=<?=$sort?>&column=<?=$column?>">Previous</a></li>
+	  <?for($i=1; $i < $allcountries; $i++):?>
+    <li class="page-item"><a class="page-link" href="filters.php?list=<?=$i?>&continent=<?=$continent?>&sort=<?=$sort?>&column=<?=$column?>"><?=$i?></a></li>
+	<?endfor?>
+    <li class="page-item"><a class="page-link" href="filters.php?list=<?=$list==$allcountries?$allcountries:$list+1?>&continent=<?=$continent?>&sort=<?=$sort?>&column=<?=$column?>">Next</a></li>
+	 <li class="page-item"><a class="page-link" href="filters.php?list=<?=$allcountries?>&continent=<?=$continent?>&sort=<?=$sort?>&column=<?=$column?>">End</a></li>
+  </ul>
+</nav>
+	<?endif?>
+</body>
+</html>
